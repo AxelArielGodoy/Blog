@@ -44,8 +44,8 @@ A continuación, se muestran algunas capturas de pantalla de la aplicación en f
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone https://github.com/Alexmaxter/ProyectoFinal-BorsatoGodoyCruzp
-cd ProyectoFinal-BorsatoGodoyCruzp
+git clone https://github.com/AxelArielGodoy/Blog
+cd Blog/
 code .
 ```
 
