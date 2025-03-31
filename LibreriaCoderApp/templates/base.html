@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      {% load static %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap"rel="stylesheet"/>
+    {% block titulo %}
+      <title>Base</title> - BlogCoder
+    {% endblock titulo %}
+    <link rel="icon" type="image/x-icon" href={% static 'LibreriaCoderApp/assets/favicon.ico'%} />
+    <link href={% static 'LibreriaCoderApp\css\styles.css' %} rel="stylesheet"/>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-bottom: solid;border-color:#dee2e6;border-width:1px;">
+      <div class="container">
+        <a class="navbar-brand Logo" href={% url 'inicio' %}>BLOG<span class="Logo" style="color: #198754;">CODER</span></a>
+        <button class="navbar-toggler"type="button"data-bs-toggle="collapse"data-bs-target="#navbarSupportedContent"aria-controls="navbarSupportedContent"aria-expanded="false"aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link  {% if request.path == "/inicio/" %}active{% endif %}" aria-current="page" href={% url 'inicio' %}>INICIO</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link  {% if request.path == "/acerca_de/" %}active{% endif %}" href={% url 'acerca_de' %}>ACERCA DE</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link  {% if request.path|slice:'6' == "/blog/" %}active{% endif %}"  href={% url 'blog' %}>BLOG</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link  {% if request.path == "/contacto/" %}active{% endif %}"  href={% url 'contacto' %}>CONTACTO</a>
+            </li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href={% url 'perfil' %} style="text-transform: uppercase;background-color:#198754; border-radius:0.3rem 0rem 0rem 0.3rem; color:white; margin: 0rem 0rem 0rem 1rem;border-color:#198754;border-style:solid;border-width:1px;border-width:1px;" >
+              {{request.user.username}}
+            </a>
+          </li>
+          </ul>
+        </div>
+
+        <div style="background-color:#198754;border-radius: 0rem 2rem 2rem 0rem;border-style:solid;border-width:1px;border-color:#198754;object-fit: cover;">
+          {% if request.user.masdatosusuarios.avatar %}
+            <img src={{request.user.masdatosusuarios.avatar.url}} style="border-radius: 50%;height:40px;width:40px;object-fit: cover;"  alt=""class="border border-success">
+          {% else %}
+            <img src="{% static 'LibreriaCoderApp/assets/img/AvatarPorDefecto.png' %}" style="border-radius: 50%; height:40px;width:40px;object-fit: cover;" alt="" class="border border-success;">
+          {% endif %}
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href={% url 'iniciar_sesion' %} style="border-radius:0.3rem; border-style:solid;border-width:1px;border-color:#198754;color:#198754;">INICIAR SESIÓN</a></li>
+            <li class="nav-item"><a class="nav-link" style="background-color:#198754; border-radius:0.3rem; color:white; margin: 0rem 0rem 0rem 1rem;border-color:#198754;border-style:solid;border-width:1px;border-width:1px;" href={% url 'registro' %}>REGISTRARSE</a></li>
+          {% endif %}
+          </div>
+      </div>
+    </nav>
+    
+{% block contenido %}
+    
+{% endblock contenido %}
+
+
+    <footer class="py-5 -light bg-light" style="border-top: solid;border-color:#dee2e6;border-width:1px ;width: 100%;">
+      <div class="container">
+        <p class="m-0" style="text-align:center;">Copyright &copy; BlogCoder 2022</p>
+      </div>
+    </footer>
+    
+  </body>
+</html>

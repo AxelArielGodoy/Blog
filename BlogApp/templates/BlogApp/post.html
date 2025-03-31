@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}
+<title>{{post.titulo}} - BlogCoder</title>
+{% endblock titulo %}
+
+
+{% block contenido %}
+
+<div class="container mt-5 bg-light" style="padding: 2rem; margin-bottom: 2rem">
+  <div class="row" style="background-color: white;padding: 2rem;border-style: solid;border-width: 1px;border-color: #dee2e6;">
+    <article style="padding: 0rem">
+      <header class="mb-4">
+        <div class="text-muted fst-italic mb-2">
+          Publicado el
+          {{post.creado.day}}/{{post.creado.month}}/{{post.creado.year}} por
+          <a href='{% url "perfil_usuario" post.autor.id %}' style="text-decoration: none">
+            <span class="badge bg-success" style="text-transform: capitalize">{{post.autor}}</span>
+          </a>
+        </div>
+        <span class="TituloPost">{{post.titulo}}</span>
+        <div class="text fst-italic mb-2">{{post.subtitulo}}</div>
+      </header>
+
+      {% if post.imagen %}
+        <figure class="mb-4">
+          <img class="img-fluid rounded" style="object-fit: cover; width: 100%"src="{{ post.imagen.url }}" alt="..."/>
+        </figure>
+      {% endif %}
+    </article>
+
+    <section class="mb-5">{{post.contenido|safe}}</section>
+        {% if request.user == post.autor or request.user.is_superuser%}
+          <div class="container mt-5">
+            <div class="row">
+              <div>
+                <a class="btn btn-danger" href='{% url "desea_eliminar" post.id %}' style="margin: auto; width: 10rem">Borrar post</a>
+                <a class="btn btn-primary" href='{% url "editar_post" post.id  %}' style="width: 10rem">Editar post</a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+  </div>
+</div>
+
+<div class="row"style="background-color: white;padding: 2rem;margin: 2rem 18rem;border-style: solid;border-width: 1px;border-color: #dee2e6;">
+ 
+  {% if comments.count == 0 %}
+    <h1 class="TituloPost" style="margin: 2rem 0rem">¡Sé el primero en comentar!</h1>
+  {% else %}
+    <h1 class="TituloPost" style="margin: 2rem 0rem">Comentarios {{comments.count}}</h1>
+  {% endif %}
+
+  {% for comment in comments %}
+    <div class="be-comment">
+      {% if comment.name.is_superuser %}
+        <div class="be-img-comment">
+          <a href='{% url "perfil_usuario" comment.name.id %}'>
+            {% if comment.name.masdatosusuarios.avatar %}
+              <img src="{{ comment.name.masdatosusuarios.avatar.url}}" alt="" class="be-ava-comment" style="object-fit: cover;border-style: solid;border-width: 5px; border-radius: 50%;border-color: #198754;"/>
+            {% else %}
+              <img src="{% static 'LibreriaCoderApp/assets/img/AvatarPorDefecto.png' %}" alt="" class="be-ava-comment" style="object-fit: cover;border-style: solid;border-width: 5px; border-radius: 50%;border-color: #198754;"/>
+            {% endif %}
+          </a>
+        </div>
+      {% else %}
+        <div class="be-img-comment">
+          <a href='{% url "perfil_usuario" comment.name.id %}'>
+            {% if comment.name.masdatosusuarios.avatar %}
+              <img src="{{ comment.name.masdatosusuarios.avatar.url }}" alt=""class="be-ava-comment"style="object-fit: cover;"/>
+            {% else %}
+              <img src="{% static '/LibreriaCoderApp/assets/img/AvatarPorDefecto.png' %}" alt=""class="be-ava-comment"style="object-fit: cover;"/>
+            {% endif %}
+          </a>
+        </div>
+      {% endif %}
+
+  <div class="be-comment-content">
+      <span class="be-comment-name" >
+        <div style="padding-top: 1rem">
+          {% if comment.name.is_superuser %}
+            <a href='{% url "perfil_usuario" comment.name.id  %}' style="font-weight: bolder;text-decoration: None;padding: 0.5rem;background-color: #198754;color: white;text-align: center;border-radius: 0.5rem;">{{comment.name}}</a>
+          {% else %}
+            <a href='{% url "perfil_usuario"  comment.name.id %}' style="text-decoration: None; padding: 1rem;font-weight: bolder;">{{comment.name}}</a>
+          {% endif %}
+        </div>
+      </span>
+    <span class="be-comment-time"><i class="fa fa-clock-o">{{comment.created_on}}</i></span>
+    <div class="be-comment-text" > <p >{{comment.body|safe}}</p></div>
+  </div>
+</div>
+{% endfor %}
+</div>
+
+<div class="container mt-5 bg-light" style="padding: 2rem; margin-bottom: 2rem">
+  <div class="row" style="background-color: white;border-style: solid;border-width: 1px;border-color: #dee2e6;">
+    <div class="card-body" style="margin: 2rem 6rem 2rem 6rem;">
+    {% if new_comment %}
+      <div class="alert alert-success" role="alert" >Se ha enviado el comentario! </div>
+    {% else %}
+      <h3>Deja un comentario!</h3>
+      <form method="post" style="margin-top: 1.3em;width: 100%" action={% url 'post' post.id %} >{% csrf_token %}
+        <div style="text-align: center; width:500px">
+          <p style="margin: 1rem;"> {{comment_form.body }}{{comment_form.media}}</p>
+        </div>
+        <div style="background-color:black; wid;"><button type="submit" class="btn btn-primary btn-lg" style="float: right;">Publicar</button></div>    
+      </form>
+    {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock contenido %}

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Perfil - BlogCoder</title>
+{% endblock titulo %}
+
+{% block contenido %}
+
+<div class="container mt " style="margin: 4rem auto;" >
+    
+    <div class="row d-flex justify-content-center">
+        
+        <div class="col-md-7" style=" width: 50%;">
+            
+            {% if masdatosusuarios.user.is_superuser %}
+             <div class="contenedorFormulario" style="border-style: solid; border-color: #198754;border-width: 5px;border-radius: 10% 0rem 10% 0rem;">
+                {% else %}
+                
+                <div class="contenedorFormulario">
+                {% endif %}
+                <div class="text-center">
+              
+                    {% if masdatosusuarios.avatar %}
+                    <img src={{  masdatosusuarios.avatar.url }} style="border-radius: 50%; height:250px;width:250px; object-fit: cover"  alt="" class="border border-success">
+                    {% else %}
+                    <img src="{% static 'LibreriaCoderApp/assets/img/AvatarPorDefecto.png' %}" style="border-radius: 50%;height:250px;width:250px;"    alt="" class="border border-success">
+                    {% endif %}
+                </div>
+                <div class="text-center mt-3">
+
+                    {% if request.user == masdatosusuarios.user  %}
+                    <span class="bg-success p-1 px-4 rounded text-white" style="text-transform: capitalize;">{{request.user}}</span>
+                    
+                    {% else %}
+                        {% if masdatosusuarios %}
+                            <span class="bg-success p-1 px-4 rounded text-white" style="text-transform: capitalize;">{{masdatosusuarios.user}}</span>
+                            {% else %}
+                            <span class="bg-success p-1 px-4 rounded text-white" style="text-transform: capitalize;">{{usuario}}</span>
+                            {% endif %}
+                  
+                    {% endif %}
+                    
+                    {% if masdatosusuarios.first_name and masdatosusuarios.last_name %}
+                    <h5 class="mt-2 mb-0">{{masdatosusuarios.first_name}} {{masdatosusuarios.last_name}}</h5>
+                    {% elif masdatosusuarios.first_name %}
+                    <h5 class="mt-2 mb-0">{{masdatosusuarios.first_name}}</h5>
+                    {% elif masdatosusuarios.last_name %}
+                    <h5 class="mt-2 mb-0">{{masdatosusuarios.last_name}}</h5>
+                    {% endif %}
+
+                    <div style="margin: 1rem">
+                        
+                        {% if masdatosusuarios.web %}
+                        <a href="{{masdatosusuarios.web}}" target="_blank"><img src="{% static 'LibreriaCoderApp/assets/img/IconoSitioWeb.png' %}" style= "margin:0.5rem;filter: invert(75%);width: 2rem;"></a>
+                       {% endif %}
+
+                        {% if masdatosusuarios.facebook %}
+                        <a href="{{masdatosusuarios.facebook}}" target="_blank"><img src="{% static 'LibreriaCoderApp/assets/img/IconoFacebook.png' %}" style= "margin:0.5rem;filter: invert(75%);width: 2rem;"></a>
+                        {% endif %}
+                        
+                        {% if masdatosusuarios.twitter %}
+                        <a href="{{masdatosusuarios.twitter}}" target="_blank"><img src="{% static 'LibreriaCoderApp/assets/img/IconoTwitter.png' %}" style= "margin:0.5rem;filter: invert(75%);width: 2rem;"></a>
+                        {% endif %}
+
+
+                        {% if masdatosusuarios.instagram %}
+                        <a href="{{masdatosusuarios.instagram}}" target="_blank"><img src="{% static 'LibreriaCoderApp/assets/img/IconoInstagram.png' %}" style= "margin:0.5rem;filter: invert(75%);width: 2rem;"></a>
+                        {% endif %}
+
+                    </div>
+                    
+                    <div class="px-4 mt-1">
+
+                        {% if masdatosusuarios.descripcion %}
+                            <p class="fonts">{{masdatosusuarios.descripcion}}</p>
+                        {% endif %}
+                    
+                    </div>
+                    <div class="buttons" >
+                        {% if  request.user == masdatosusuarios.user   %} 
+                        <a class="btn btn-danger px-4 ms-3" href={% url 'cerrar_sesion' %} style="margin: 0rem 1rem 0rem 1rem;;">Salir</a>
+                        <a class="btn btn-primary px-4 ms-3" href={% url 'editar_perfil' %} style="margin: 0rem 1rem 0rem 1rem;">Editar perfil</a>
+                        <a class="btn btn-primary px-4 ms-3" href={% url 'buzon' %} style="margin: 0rem 1rem 0rem 1rem;">Buzón {% if cantidad_mensajes > 0 %}<strong>({{cantidad_mensajes}})</strong>{% endif %}</a>
+                       
+                        {% else %}
+                        
+                        <a class="btn btn-primary px-4 ms-3" href={% url 'enviar_mensaje' masdatosusuarios.user.id %} style="margin: 0rem 1rem 0rem 1rem;">Enviar mensaje</a>
+                        {% endif %}
+                    </div>  
+                </div> 
+            </div>
+        </div>
+        <div class="col-md-7" style=" width: 50%;">
+            <div class="card p-3 py-4 contenedorFormulario" style="border-radius: 0rem;">
+                {% if posts %}
+                <span class="TituloPost" style="margin:auto 0">Posteos realizados</span>
+                {% for post in posts %}
+                
+                {% if post.imagen %}
+                <a class="alert alert-primary" href='{% url "post" post.id %}' style="text-decoration:none;margin: 1rem 0rem 0rem 0rem;" ><img src={{post.imagen.url}} style="width:100px; height: 50px;border-radius:0.2rem; object-fit: cover;" alt="">&nbsp; &nbsp; <span class="lead" style="color:black">{{post.titulo}}</span></a>
+                {% else %}
+                <a class="alert alert-primary" href='{% url "post" post.id %}' style="text-decoration:none;margin: 1rem 0rem 0rem 0rem;" ><img src="{% static 'LibreriaCoderApp/assets/img/PostSinImagen.jpg' %}" style="width:100px;height: 50px;border-radius:0.2rem;" alt="">&nbsp; &nbsp; <span class="lead" style="color:black">{{post.titulo}}</span></a>
+                {% endif %}
+                
+                {% endfor %}
+
+                {% else %}
+                <div style=" text-align: center;padding:2rem;">
+                        
+                    <img src="{% static 'LibreriaCoderApp/assets/img/PaginaVacia.png' %}" alt="" style="width: 50%;filter: grayscale(100%)">
+                    <h2 class="TituloPost">¡Ups! No hay nada por aquí...</h2>
+                        {% if request.user.id == masdatosusuarios.user.id %}
+                        <a class="btn btn-primary" href='{% url "crear_post" %}' style="margin: auto; width:10rem">Crear post</a>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}

@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Inicio - BlogCoder</title>
+{% endblock titulo %}
+
+{% block contenido %}
+
+{% if ultimo_post == None %}
+        
+        <div class="contenedorFormulario"  style="margin: 2rem 18rem;  text-align: center;padding:2rem;">
+            
+            <img src="{% static 'LibreriaCoderApp/assets/img/PaginaVacia.png' %}" alt="" style="width: 50%;filter: grayscale(100%);">
+            <h2 class="fw-bolder TituloPost">¡Ups! No hay nada por aquí...</h2>     
+        {% else %}
+<div class="container mt-5  bs-light" style="  padding:2rem; margin-bottom: 2rem;">
+    <div class="row" >
+            <div class="col-lg-8 contenedorFormulario" style="background-color: white;padding:2rem;">
+            <!-- Post content-->
+
+            {% if ultimo_post %}
+            <article >
+                <!-- Post header-->
+
+                <header class="mb-4 ">  
+                    <!-- Post title-->
+                    <div class="text-muted fst-italic mb-2">Publicado el {{ultimo_post.creado.day}}/{{ultimo_post.creado.month}}/{{ultimo_post.creado.year}} por <a href='{% url "perfil_usuario" ultimo_post.autor.id  %}' style="text-decoration:none;"><span class="badge bg-success" style="text-transform:capitalize;">{{ultimo_post.autor}}</span> </a></div>                    
+                    <a href='{% url "post" ultimo_post.id %}' style="text-decoration:none;"><span class="TituloPost">{{ultimo_post.titulo}}</span></a>
+                    <!-- Post meta content-->
+                    <!-- Post categories-->
+                    <br>
+                    <div class="text fst-italic mb-2">{{ultimo_post.subtitulo}}</div>
+                    
+                </header>
+                <!-- Preview image figure-->
+                
+                {% if ultimo_post.imagen %}
+                <figure class="mb-4"><img class="img-fluid rounded" src="{{ultimo_post.imagen.url}}" style=" object-fit: cover; width:100%;" alt="..." /></figure>
+                
+                {% else %}
+                <p></p>
+                {% endif %}
+                <!-- Post content-->
+                <section class="mb-5">
+                   {{ultimo_post.contenido|safe}}
+                </section>
+            </article>
+            
+            {% endif %}
+        </div>
+        <!-- Side widgets-->
+        <div class="col-lg-4" style="padding: 0rem 0rem 0rem 1rem;">
+            <!-- Search widget-->
+            <div class="card mb-4" >
+                <div class="card-header">Buscar</div>
+                <div class="card-body" style="padding: 0rem 1rem 1rem 1rem;">  
+                            <form action={% url 'buscar_post' %}  enctype="multipart/form-data" style="margin: 0;">
+      
+                                <div style="margin:0rem;display: flex;
+                                align-items: flex-end;">
+                                {{formulario_busqueda}}
+                                <button class="btn btn-primary" style="float: right; ">Buscar</button>
+                                 </div>
+                                
+                              </form>
+                        
+                          
+                    </div>
+                </div>
+
+            <!-- Categories widget-->
+            <!-- Side widget-->
+            <div class="card mb-4">
+                <div class="card-header">Usuarios registrados: <span class="badge bg-success text-decoration-none link-light" style="border-radius: 25%">{{total_usuarios}}</span></div>
+                <div class="card-body">
+                  {% for user in users %}
+                  {% if user.is_superuser %}
+                    {% if user.masdatosusuarios.avatar %}
+                    <a href='{% url "perfil_usuario" user.id %}' style="text-decoration:none;"><span class="badge bg-success" style="text-transform:capitalize;"><img src="{{user.masdatosusuarios.avatar.url}}" style="border-radius:50%;height:20px;width:20px; object-fit: cover;margin-right: 0.5rem">{{user.username}}</span> </a>
+                    {% else %}
+                    <a href='{% url "perfil_usuario" user.id %}' style="text-decoration:none;"><span class="badge bg-success" style="text-transform:capitalize;"><img src="{% static 'LibreriaCoderApp/assets/img/AvatarPorDefecto.png' %}" style="border-radius:50%;height:20px;width:20px; object-fit: cover;margin-right: 0.5rem">{{user.username}}</span> </a>
+
+                    {% endif %}
+                    {% else %}
+                    {% if user.masdatosusuarios.avatar %}
+                  <a href='{% url "perfil_usuario" user.id %}' style="text-decoration:none"><span class="badge bg-secondary" style="text-transform:capitalize;"><img src="{{user.masdatosusuarios.avatar.url}}" style="border-radius:50%;height:20px;width:20px; object-fit: cover;margin-right: 0.5rem; color:#6c757d;">{{user.username}}</span> </a>
+                    {% else %}
+                  <a href='{% url "perfil_usuario" user.id %}' style="text-decoration:none"><span class="badge bg-secondary" style="text-transform:capitalize;"><img src="{% static 'LibreriaCoderApp/assets/img/AvatarPorDefecto.png' %}" style="border-radius:50%;height:20px;width:20px; object-fit: cover;margin-right: 0.5rem; color:#6c757d;">{{user.username}}</span> </a>
+
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main class="my-5">
+    <div class="container" >
+      <!--Section: Content-->
+      <section class="text-left">
+          <div class="row">
+              
+              <div class=" bg-light" style="border-top: solid;border-color:#dee2e6;border-width:1px ;">
+              <div class="TituloPost" style="padding:1rem">Otros posteos:</div>
+            </div>
+            {% for post in post_random %}
+            
+            <div class="col-lg-4" style="margin: 1rem 0; ">
+                <div class="card">
+                  <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light" >
+                    {% if post.imagen %}
+                    <img  src="{{post.imagen.url}}" class="img-fluid"style="height: 250px; object-fit: cover; width:100%; border-radius: 0.2rem 0.2rem 0rem 0rem;" />
+                    {% else %}
+                    <div  class="img-fluid"style="height: 250px;  width:100%; border-radius: 0.2rem 0.2rem 0rem 0rem;background-color: #ced4da;align-items: center;display: flex;" />
+                    <p class="TituloPost" style="margin: 0 auto;color:#e9ecef">BLOGCODER</p>
+                    </div>
+                    {% endif %}
+                    
+                    <a href="#!">
+                      <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                    </a>
+                </div>
+                  <div class="card-body">
+                    <h5 class="card-title" style="margin: 0;">{{post.titulo}}</h5>
+                    <p class="card-text">
+                        <h6 class="mall text-muted"style="margin: 0;" >{{post.subtitulo}}</h6>
+                    </p>
+                    <div class="small text-muted" style="text-transform: capitalize;">{{post.creado}} | Autor: <a href='{% url "perfil_usuario" post.autor.id %}'><span class="badge bg-success" style="text-transform:capitalize;">{{post.autor}}</span> </a></div>  
+                    
+                    <a class="btn btn-primary" href='{% url "post" post.id %}' style="width:100%; margin: 1rem 0rem 0rem 0rem">Leer más</a>
+                    
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              
+             {% endif %}
+        </div>
+      </section>
+      <!--Section: Content-->
+    </div>
+</main>
+{% endblock contenido %}

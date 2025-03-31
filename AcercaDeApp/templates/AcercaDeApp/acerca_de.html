@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% load static %} {% block titulo %}
+<title>Acerca de - BlogCoder</title>
+{% endblock titulo %} {% block contenido %}
+<main role="main">
+  <div class="album py-5 bg-light" style="margin: 2rem">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4" style="padding: 0rem 1rem">
+          <div class="card mb-4 box-shadow">
+            <img
+              class="card-img-top"
+              src="{% static 'LibreriaCoderApp/assets/img/VictoriaAvatar.png' %}"
+              alt="Card image cap"
+            />
+            <div class="card-body" style="text-align: center">
+              <p class="card-text">Victoria Cruz Pintor</p>
+              <p class="card-text">Lic. Seguridad e Higiene</p>
+              <div
+                class="d-flex justify-content-between align-items-center"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4" style="padding: 0rem 1rem">
+          <div class="card mb-4 box-shadow">
+            <img
+              class="card-img-top"
+              src="{% static 'LibreriaCoderApp/assets/img/myAvatarConLentes.png' %}"
+              alt="Card image cap"
+            />
+            <div class="card-body" style="text-align: center">
+              <p class="card-text">Alexis Matias Borsato</p>
+              <p class="card-text">Lic. Administración de empresas</p>
+              <div
+                class="d-flex justify-content-between align-items-center"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4" style="padding: 0rem 1rem">
+          <div class="card mb-4 box-shadow">
+            <img
+              class="card-img-top"
+              src="{% static 'LibreriaCoderApp/assets/img/AxelAvatar.png' %}"
+              alt="Card image cap"
+            />
+            <div class="card-body" style="text-align: center">
+              <p class="card-text">Axel Godoy</p>
+              <p class="card-text">Estudiante de Coderhouse</p>
+              <div
+                class="d-flex justify-content-between align-items-center"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock contenido %}

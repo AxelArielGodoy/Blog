@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Contacto - BlogCoder</title>
+{% endblock titulo %}
+
+{% block contenido %}
+    <div class="contenedorFormulario" style="padding: 2rem; margin: 2rem 18rem 2rem 18rem;">
+        <h1 class="TituloPost">Contacto</h1>
+            {% if "valido" not in request.GET %}
+                <form action={% url 'buscar_post' %}  enctype="multipart/form-data">
+                    <div style="margin:2rem auto">{{formulario_contacto}}</div>
+                    <div style="text-align: center;">
+                        <input type="submit" value="Enviar" style="width:20%;"  class="btn btn-primary">
+                    </div>
+                </form>
+            {% else %}
+                <div style="width:100%;margin: 1rem auto; background-color: blue; border-radius: 1rem;">
+                    <p style="color: white; padding: 0.5rem; text-align: center;">¡Información enviada correctamente!</p>
+                </div>
+            {% endif %}
+    </div>
+{% endblock contenido %}

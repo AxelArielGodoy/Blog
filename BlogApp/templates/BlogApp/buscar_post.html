@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Busqueda - BlogCoder</title>
+{% endblock titulo %}
+
+{% block contenido %}
+<div style="text-align: left; padding: 1rem 6rem 1rem 6rem" class=" bg-light">
+    
+   
+    <form action={% url 'buscar_post' %}  enctype="multipart/form-data">
+      
+      <div style="margin:2rem auto">
+      {{formulario_busqueda}}</div>
+      <button class="btn btn-primary">Buscar</button>
+      
+      <a class="btn btn-primary" href={% url 'blog' %} style="width:10rem;float:right">Volver al blog</a>
+    </form>
+    
+</div> 
+
+{% if listado_post %}
+
+ 
+<main class="my-5">
+  <div class="container" >
+    
+    <section class="text-left">
+
+      <div class="row">
+
+          {% for post in listado_post %}
+          <div class="col-lg-4" style="margin: 1rem 0; ">
+              <div class="card">
+                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light" >
+                  {% if post.imagen %}
+                    <img  src="{{post.imagen.url}}" class="img-fluid"style="height: 250px; object-fit: cover; width:100%; border-radius: 0.2rem 0.2rem 0rem 0rem;" />
+                    {% else %}
+                    <div  class="img-fluid"style="height: 250px;  width:100%; border-radius: 0.2rem 0.2rem 0rem 0rem;background-color: #ced4da;align-items: center;display: flex;" />
+                    <p class="TituloPost" style="margin: 0 auto;color:#e9ecef">BLOGCODER</p>
+                    </div>
+                    {% endif %}
+                  
+                  <a href="#!">
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title" style="margin: 0;">{{post.titulo}}</h5>
+                  <p class="card-text">
+                      <h6 class="mall text-muted"style="margin: 0;" >{{post.subtitulo}}</h6>
+                  </p>
+                  <div class="small text-muted" style="text-transform: capitalize;">{{post.creado}} | Autor: <a href='{% url "perfil_usuario" post.autor.id %}'><span class="badge bg-success" style="text-transform:capitalize;">{{post.autor}}</span> </a></div>  
+                  
+                
+                  <a class="btn btn-primary" href='{% url "post" post.id %}' style="width:100%; margin: 1rem 0rem 0rem 0rem"">Leer más</a>
+                  
+                </div>
+              </div>
+            </div>
+            
+            {% endfor %}
+            
+      </div>
+    </section>
+    <!--Section: Content-->
+  </div>
+</main>
+
+{% else %}
+<div style="width:50%;margin: 1rem auto; background-color: red; border-radius: 1rem;">
+            <p style="color: white; padding: 0.5rem; text-align: center;">¡NO SE HA ENCONTRADO NINGÚN RESULTADO!</p>
+</div   >
+{% endif %}
+
+
+
+
+
+{% endblock contenido %}

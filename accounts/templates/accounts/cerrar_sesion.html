@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Sesión terminada - BlogCoder</title>
+{% endblock titulo %}
+
+{% block contenido %}
+<title>Salir</title>
+
+<div class="contenedorFormulario" style=" padding: 0rem 0rem 2rem 0rem; margin: 5rem 6rem 5rem 6rem;">
+   <div style="text-align: center;margin: 2rem 0rem 2rem 0rem;">
+    <img src="{% static 'LibreriaCoderApp/assets/img/SesionCerrada.jpg' %}" alt="" style="width:40%">
+</div>
+    <div>
+
+    <p style="color: white; padding: 0.5rem; text-align: center;width:50%;margin: auto ; background-color: green; border-radius: 1rem;">¡Se ha cerrado sesión correctamente!</p>
+</div>
+</div>
+{% endblock contenido %}

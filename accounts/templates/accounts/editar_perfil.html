@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Editar perfil - BlogCoder</title>
+{% endblock titulo %}
+
+{% block contenido %}
+
+<div class="container mt" style="margin: 4rem auto;">
+    <div class="row d-flex justify-content-center">   
+            <div class="contenedorFormulario" style="width: 60%;">
+                <div style="padding: 1rem">
+                    <span class="TituloPost" style="margin:auto 0">Editar perfil</span>
+                </div>
+                <form action={% url 'editar_perfil' %} method="post" enctype="multipart/form-data" style="margin:0 auto; width:100%;">
+                        {% csrf_token %}
+                        <p style="margin: 1rem"> {{form_edit.email }} </p>
+                        <p style="margin: 1rem"> {{form_edit.first_name }} </p>
+                        <p style="margin: 1rem"> {{form_edit.last_name }} </p>
+                        <p style="margin: 1rem"> {{form_edit.descripcion }} </p>
+
+                        <div style="overflow:hidden;">
+                        <div style="float:left; width:50%;">
+                        <p style="margin: 1rem"> {{form_edit.web }} </p>
+                        <p style="margin: 1rem"> {{form_edit.facebook }} </p>
+                        </div>
+                        <div style="float:right; width:50%;">
+                        <p style="margin: 1rem"> {{form_edit.twitter }} </p>
+                        <p style="margin: 1rem"> {{form_edit.instagram }} </p>
+                        </div></div>
+                        <div style="text-align: center; ">
+                            <p style="margin: 1rem"> {{form_edit.avatar }} </p>
+                        </div>
+                    
+                    <div style="width: 90%;margin: 2rem; overflow:hidden">
+                        <a class="btn btn-danger px-4 ms-3" href={% url "perfil" %} style="float:left;">Cancelar</a>
+                            
+                        <a class="btn btn-danger px-4 ms-3" href={% url 'cambiar_contrasegna' %} style="float:center;">Cambiar Contraseña</a>
+                
+                        <button class="btn btn-primary"href="#about" style="float:right">Guardar</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}

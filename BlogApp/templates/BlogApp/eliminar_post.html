@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Post eliminado - BlogCoder</title>
+{% endblock titulo %}
+
+{% block contenido %}
+
+<div
+class="contenedorFormulario"
+style="padding: 0rem 0rem 2rem 0rem; margin: 2rem 18rem">
+<div style="margin: 2rem; text-align: center">
+  <span class="TituloPost">El post ha sido eliminado correctamente!</span>
+</div>
+<div style="text-align: center">
+  <img
+    src="{% static 'LibreriaCoderApp/assets/img/PostEliminado.jpg' %}"
+    alt=""
+    style="width: 50%"
+  />
+</div>
+</div>
+   
+{% endblock contenido %}

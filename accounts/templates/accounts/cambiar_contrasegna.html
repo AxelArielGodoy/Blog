@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Cambiar Contraseña</title>
+{% endblock titulo %}
+
+{% block contenido %}
+
+            <div class="contenedorFormulario" style="margin: 2rem 18rem;">
+                <span class="TituloPost" style="margin: 2rem">Cambiar Contraseña</span>
+                <form action={% url 'cambiar_contrasegna' %} method="post" enctype="multipart/form-data" style="padding: 2rem" >
+                    {% csrf_token %}
+                        {{form.as_p}}
+                    <div style=" overflow:hidden">
+                    <button class="btn btn-primary" style="margin: 0rem 1rem 0rem 1rem;float:right;">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+{% endblock contenido %}

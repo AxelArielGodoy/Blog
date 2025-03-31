@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Editar {{post.titulo}} - BlogCoder</title>
+{% endblock titulo %}
+
+{% block contenido %}
+
+    <div class="contenedorFormulario" style="margin: 2rem 12rem 2rem 12rem;">
+      <div style="padding: 2rem 6rem 0rem 4rem;">
+      <span class="TituloPost" style="margin:auto 0">Editar post</span>
+      </div>
+      <form action={% url 'editar_post' post.id %} method="post" enctype="multipart/form-data" style="text-align: left;">
+        <table style="margin: 1rem auto">
+          {% csrf_token %}
+          <p style="margin: 1rem"> {{form.titulo }} </p>
+    <p style="margin: 1rem"> {{form.subtitulo }} </p>
+    <div style="text-align: center; ">
+    <p style="margin: 1rem;"> {{form.contenido }}{{form.media}}</p>
+    </div>
+    <p class="btn-success   " style="text-align:center;    padding:0.5rem;">La imagen no debe superar los 5 MB
+      |
+       {{form.imagen }}</p>
+        </table>
+        
+        <div style="width: 90%;margin: 2rem; overflow:hidden">
+      
+          <a class="btn btn-danger px-4 ms-3" href={% url "post" post.id %} style="float:left;">Cancelar</a>
+          <button class="btn btn-primary"href="#about" style="float:right">Guardar</button>
+        
+        </div>
+      </form>
+    </div>
+   
+{% endblock contenido %}

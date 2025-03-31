@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Enviar mensaje a {{destinatario.username}}- BlogCoder</title>
+{% endblock titulo %}
+
+
+{% block contenido %}
+
+<div class="container mt " style="margin: 4rem auto;" >
+    
+    <div class="row d-flex justify-content-center">
+            
+            <div class="contenedorFormulario">
+
+             <span class="TituloPost">Enviando mensaje a {{destinatario.username}}</span>
+
+             <form action={% url 'enviar_mensaje' destinatario.id %} method="post" enctype="multipart/form-data" style="text-align: left; margin: 0 auto">
+    
+              {% csrf_token %}
+          
+              <div style="text-align: center; ">
+              <p style="margin: 1rem"> {{formulario_mensaje.contenido }}{{formulario_mensaje.media}} </p>
+              </div>
+              <div style="width: 90%;margin: 2rem; overflow:hidden">
+                
+                <a class="btn btn-danger px-4 ms-3" href={% url "buzon" %} style="float:left;">Cancelar</a>
+                <button class="btn btn-primary"href="#about" style="float:right">Enviar</button>
+              
+              </div>
+            </form>
+</div>
+</div>
+</div>
+
+
+{% endblock contenido %}
